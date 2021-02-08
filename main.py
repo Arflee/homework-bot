@@ -1,14 +1,21 @@
 import os
 import discord
+import requests
 from dotenv import load_dotenv
 
-load_dotenv(".env", verbose=True)
+load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+BOT_ID = int(os.getenv('BOT_ID'))
 
-client = discord.Client()
+class BotClient(discord.Client):
 
-@client.event
-async def on_ready():
-    print(f'{client.user} has connected to Discord!')
+    async def on_message(self, message):
+        if(message.author.id != BOT_ID):
+            self.channel = message.channel
+            await self.reply_on_request('123')
 
+    async def reply_on_request(self, message):
+        await self.channel.send(message)
+
+client = BotClient()
 client.run(TOKEN)
