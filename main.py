@@ -8,6 +8,9 @@ BOT_ID = int(os.getenv('BOT_ID'))
 
 class BotClient(discord.Client):
 
+    async def on_ready(self):
+        print('I\'m loaded!')
+
     async def on_message(self, message):
         if(message.author.id != BOT_ID):
             self.channel = message.channel
